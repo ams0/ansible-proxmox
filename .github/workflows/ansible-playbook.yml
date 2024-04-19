@@ -1,0 +1,28 @@
+name: Run Ansible Playbook
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+      - name: Run ansible-lint
+        uses: ansible/ansible-lint@main # or version tag instead of 'main'
+        with:
+          args: ansible-playbook.yml
+                
+    - name: Run Ansible Playbook
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.REMOTE_HOST }}
+        username: ${{ secrets.REMOTE_USERNAME }}
+        key: ${{ secrets.REMOTE_SSH_KEY }}
+        script: ansible-playbook ansible-playbook.yml

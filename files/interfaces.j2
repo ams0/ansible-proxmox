@@ -1,0 +1,40 @@
+source /etc/network/interfaces.d/*
+
+auto lo
+iface lo inet loopback
+
+iface {{ interfaces_list[0] }} inet manual
+
+auto vmbr0
+iface vmbr0 inet static
+  address 88.99.167.15/26
+  gateway 88.99.167.1
+  up route add -net 88.99.167.0 netmask 255.255.255.192 gw 88.99.167.1 dev vmbr0
+  bridge-ports {{ interfaces_list[0] }}
+  bridge-stp off
+  bridge-fd 0
+# WAN-Bridge
+
+auto vmbr1
+iface vmbr1 inet static
+  address 192.168.1.2/24
+  bridge-ports none
+  bridge-stp off
+  bridge-fd 0
+# Bridge for internal network
+
+auto vmbr2
+iface vmbr1 inet static
+  address 192.168.2.2/24
+  bridge-ports none
+  bridge-stp off
+  bridge-fd 0
+#Ceph network
+
+auto vmbr3
+iface vmbr1 inet static
+  address 192.168.3.2/24
+  bridge-ports none
+  bridge-stp off
+  bridge-fd 0
+#Corosync
