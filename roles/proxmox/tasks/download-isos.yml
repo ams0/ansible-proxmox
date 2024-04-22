@@ -1,0 +1,37 @@
+- name: Check if opnsense iso exists
+  stat:
+    path: /var/lib/vz/template/iso/OPNsense-24.1-dvd-amd64.iso
+  register: result_opnsense
+
+- name: Download opnsense iso
+  ansible.builtin.get_url:
+    url: https://mirror.ams1.nl.leaseweb.net/opnsense/releases/24.1/OPNsense-24.1-dvd-amd64.iso.bz2
+    dest: /var/lib/vz/template/iso/
+    checksum: sha256:6d1e22713bf031d0a36a73b3820cd1564f426cae9c67a6ade4b7fa6518afa2d5
+  when: not result_opnsense.stat.exists
+  notify:
+    - Extract opnsense iso
+
+- name: Check if fedora iso exists
+  stat:
+    path: /var/lib/vz/template/iso/Fedora-Workstation-Live-x86_64-40_Beta-1.10.iso
+  register: result_fedora
+
+- name: Download fedora 40 iso
+  ansible.builtin.get_url:
+    url: https://download.fedoraproject.org/pub/fedora/linux/releases/test/40_Beta/Workstation/x86_64/iso/Fedora-Workstation-Live-x86_64-40_Beta-1.10.iso
+    dest: /var/lib/vz/template/iso/
+    checksum: sha256:ede3d2a07744fbebcb32e84baecd327aed06d7ba158fd4423d8ce143200bae69
+  when: not result_fedora.stat.exists
+
+- name: Check if ubuntu iso exists
+  stat:
+    path: /var/lib/vz/template/iso/ubuntu-22.04.4-live-server-amd64.iso
+  register: result_ubuntu
+
+- name: Download Ubuntu 22.04 iso
+  ansible.builtin.get_url:
+    url: https://releases.ubuntu.com/jammy/ubuntu-22.04.4-live-server-amd64.iso
+    dest: /var/lib/vz/template/iso/
+    checksum: sha256:45f873de9f8cb637345d6e66a583762730bbea30277ef7b32c9c3bd6700a32b2
+  when: not result_ubuntu.stat.exists

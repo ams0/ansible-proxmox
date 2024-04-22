@@ -1,0 +1,7 @@
+- name: Extract opnsense iso
+  ansible.builtin.command:  
+    cmd: bunzip2 /var/lib/vz/template/iso/OPNsense-24.1-dvd-amd64.iso.bz2
+    creates: /var/lib/vz/template/iso/OPNsense-24.1-dvd-amd64.iso
+
+- name: reboot
+  ansible.builtin.reboot:

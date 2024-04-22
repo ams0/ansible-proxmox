@@ -1,0 +1,18 @@
+- hosts: hetzner
+  roles:
+    - common
+    - hetzner
+    - proxmox
+    - Datadog.datadog
+    - artis3n.tailscale
+  vars_files:
+    - secrets.yml
+  vars:
+    tailscale_authkey: "{{ tailscale_key }}"
+    datadog_api_key: "{{ datadog_api_key }}"
+    datadog_config:
+      hostname: "{{ inventory_hostname }}"
+      logs_enabled: true
+      logs_config:
+        container_collect_all: true
+

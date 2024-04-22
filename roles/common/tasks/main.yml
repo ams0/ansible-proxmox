@@ -1,0 +1,3 @@
+# file: roles/common/tasks/main.yml
+---
+# - include_tasks: ntp.yml

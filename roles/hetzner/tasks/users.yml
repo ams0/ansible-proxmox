@@ -1,0 +1,19 @@
+- name: Create account for user
+  ansible.builtin.user:
+    name: "{{ username }}"
+    shell: /bin/bash
+
+- name: Set home directory permissions
+  ansible.builtin.file:
+    mode: 0750
+    path: /home/{{ username }}
+
+- name: Add ssh public key as authorized key for user
+  ansible.posix.authorized_key:
+    user: "{{ username }}"
+    key: "{{ ssh_public_key }}"
+
+- name: Add user to sudo-nopw group
+  ansible.builtin.user:
+    name: "{{ username }}"
+    groups: sudo-nopw

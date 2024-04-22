@@ -1,0 +1,16 @@
+- name: Apply network configuration
+  ansible.builtin.systemd_service:
+    name: networking
+    state: restarted
+    enabled: true
+
+- name: Save current state of the firewall in system file
+  community.general.iptables_state:
+    state: saved
+    path: /etc/sysconfig/iptables
+
+- name: restart fail2ban
+  service:
+    name: fail2ban
+    state: restarted
+  become: true

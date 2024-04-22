@@ -1,0 +1,2 @@
+[hetzner]
+cloud.kubespaces.io ansible_user=root

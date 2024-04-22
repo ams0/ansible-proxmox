@@ -1,0 +1,9 @@
+- name: Stop service rpcbind, if not started
+  ansible.builtin.service:
+    name: rpcbind
+    state: stopped
+
+- name: Stop service rpcbind.socket, if not started
+  ansible.builtin.service:
+    name: rpcbind.socket
+    state: stopped

@@ -1,0 +1,12 @@
+- name: Ensure sudo-nopw group exists
+  ansible.builtin.group:
+    name: sudo-nopw
+    state: present
+
+- name: Allow sudo-nopw group to use sudo without password
+  ansible.builtin.lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: '^%sudo-nopw ALL\='
+    line: '%sudo-nopw ALL=(ALL) NOPASSWD:ALL'
+    validate: 'visudo -cf %s'

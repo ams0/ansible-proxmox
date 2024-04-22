@@ -1,0 +1,20 @@
+- name: Block port 111 tcp
+  ansible.builtin.iptables:
+    chain: INPUT
+    protocol: tcp
+    destination_ports:
+      - "111"
+    jump: DROP
+  notify:
+  - Save current state of the firewall in system file
+
+- name: Block port 111 udp
+  ansible.builtin.iptables:
+    chain: INPUT
+    protocol: udp
+    destination_ports:
+      - "111"
+    jump: DROP
+  notify:
+  - Save current state of the firewall in system file
+

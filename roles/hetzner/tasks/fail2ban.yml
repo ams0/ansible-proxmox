@@ -1,0 +1,21 @@
+- name: Install fail2ban
+  package:
+    name: fail2ban
+    state: present
+
+- name: Configure fail2ban ssh section
+  template:
+    src: defaults-debian.conf
+    dest: /etc/fail2ban/jail.d/defaults-debian.conf
+    mode: 0644
+    owner: root
+    group: root
+  notify:
+    - restart fail2ban
+
+- name: Start fail2ban service
+  service:
+    name: fail2ban
+    state: started
+
+

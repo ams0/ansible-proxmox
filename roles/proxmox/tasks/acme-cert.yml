@@ -1,0 +1,12 @@
+- name: Check if account already registered
+  ansible.builtin.shell: pvenode acme account list
+  register: result_acme
+
+- name: Install ACME cert in Proxmox
+  shell:
+    cmd: |
+      expect -c "spawn pvenode acme account register default alessandro.vozza@outlook.com --directory https://acme-staging-v02.api.letsencrypt.org/directory; expect -re \"Do you agree\";  send \"y\r\";"
+      pvenode config set --acme domains=cloud.kubespaces.io
+      pvenode acme cert order
+  when:
+    - result_acme = "default"

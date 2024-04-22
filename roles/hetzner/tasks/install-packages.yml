@@ -1,0 +1,10 @@
+- name: Install packages
+  package:
+    name:
+      - tmux
+      - rsync
+      - zsh
+      - rsync
+      - wget
+      - mc
+    state: present

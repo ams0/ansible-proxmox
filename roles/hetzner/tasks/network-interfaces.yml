@@ -1,0 +1,14 @@
+- name: Dump grep matching interfaces from ansible_interfaces
+  ansible.builtin.set_fact:
+    interfaces_list: "{{ ansible_interfaces | select('match', '^(enp)[0-9]+') | list }}"
+
+- name: Configure network interfaces
+  ansible.builtin.template:
+    src: interfaces.j2
+    dest: /etc/network/interfaces
+    owner: root
+    group: root
+    mode: '0644'
+  notify:
+    - Apply network configuration
+

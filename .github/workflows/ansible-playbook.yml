@@ -1,25 +1,27 @@
 name: Run Ansible Playbook
-
-on:
-  workflow_dispatch:
-  push:
-    branches:
-      - main
-
+run-name: ${{ github.actor }} is applying an ansible playbook 🚀
+on: [push, pull_request, workflow_dispatch]
 jobs:
-  build:
-    runs-on: ubuntu-latest
+    prep:
+        runs-on: ubuntu-latest
+        steps:
+        - name: Checkout code
+          uses: actions/checkout@v2
+        - name: Run ansible-lint
+          uses: ansible/ansible-lint@main # or version tag instead of 'main'
+          with:
+            args: ansible-playbook.yml
 
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-      - name: Run ansible-lint
-        uses: ansible/ansible-lint@main # or version tag instead of 'main'
-        with:
-          args: ansible-playbook.yml
-                
     - name: Run Ansible Playbook
+      uses: ansible/ansible-lint@main # or version tag instead of 'main'
+      with:
+          args: ansible-playbook.yml
+      uses: ansible/ansible-lint@main # or version tag instead of 'main'
+      with:
+          args: ansible-playbook.yml
+      uses: ansible/ansible-lint@main # or version tag instead of 'main'
+      with:
+          args: ansible-playbook.yml
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.REMOTE_HOST }}

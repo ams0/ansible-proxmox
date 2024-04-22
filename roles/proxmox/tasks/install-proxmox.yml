@@ -1,0 +1,44 @@
+- name: Add proxmox repo
+  block:
+    - name: proxmox |no apt key
+      ansible.builtin.get_url:
+        url: https://enterprise.proxmox.com/debian/proxmox-release-bookworm.gpg
+        dest: /etc/apt/trusted.gpg.d/proxmox-release-bookworm.gpg 
+
+    - name: proxmox | apt source
+      ansible.builtin.apt_repository:
+        repo: deb http://download.proxmox.com/debian/pve bookworm pve-no-subscription
+        state: present
+
+- name: remove enterprise repo
+  file:
+    path: /etc/apt/sources.list.d/pve-enterprise.list
+    state: absent
+
+- name: Update and upgrade apt packages
+  ansible.builtin.apt:
+    upgrade: yes
+    update_cache: yes
+
+- name: Install proxmox
+  package:
+    name:
+      - proxmox-default-kernel
+    state: present
+  notify: reboot
+
+- name: Install proxmox tools
+  ansible.builtin.apt:
+    name:
+      - proxmox-ve 
+      - postfix
+      - open-iscsi
+      - chrony
+    state: present
+    autoclean: true
+
+- name: Remove Debian kernel
+  package:
+    name:
+      - linux-image-amd64
+    state: absent

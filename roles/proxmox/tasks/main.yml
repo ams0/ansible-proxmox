@@ -1,0 +1,6 @@
+# file: roles/common/hetzner/main.yml---
+---
+- include_tasks: install-proxmox.yml
+- include_tasks: download-isos.yml
+#- include_tasks: acme-cert.yml
+ 
