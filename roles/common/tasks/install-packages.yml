@@ -1,0 +1,13 @@
+- name: Install packages
+  package:
+    name:
+      - tmux
+      - rsync
+      - zsh
+      - rsync
+      - wget
+      - mc
+      - git
+      - apache2-utils
+      - neovim
+    state: present

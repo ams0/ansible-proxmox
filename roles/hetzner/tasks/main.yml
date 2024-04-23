@@ -1,12 +1,12 @@
 # file: roles/hetzner/tasks/main.yml---
 ---
+- include_tasks: network-interfaces.yml
 - include_tasks: iptables.yml
 - include_tasks: install-docker.yml
 - include_tasks: fail2ban.yml
 - include_tasks: disable-rpcbind.yml
 - include_tasks: update-packages.yml
 - include_tasks: install-packages.yml
-- include_tasks: network-interfaces.yml
 - include_tasks: bash.yml
 - include_tasks: sudo-nopw.yml
 - include_tasks: users.yml

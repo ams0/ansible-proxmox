@@ -2,5 +2,10 @@
 ---
 - include_tasks: install-proxmox.yml
 - include_tasks: download-isos.yml
-#- include_tasks: acme-cert.yml
+- include_tasks: acme-cert.yml 
+  vars:
+    ansible_fqdn: cloud.kubespaces.io
+    pve_acme_email_address: alessandro.vozza@outlook.com
+
+
  

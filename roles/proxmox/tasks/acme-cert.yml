@@ -1,12 +1,24 @@
-- name: Check if account already registered
-  ansible.builtin.shell: pvenode acme account list
-  register: result_acme
+- name: Install Proxmox ACME Dependencies (Python3)
+  apt: 
+    name: ['python3-pexpect']
+    state: present
+    update_cache: yes
 
-- name: Install ACME cert in Proxmox
-  shell:
-    cmd: |
-      expect -c "spawn pvenode acme account register default alessandro.vozza@outlook.com --directory https://acme-staging-v02.api.letsencrypt.org/directory; expect -re \"Do you agree\";  send \"y\r\";"
-      pvenode config set --acme domains=cloud.kubespaces.io
-      pvenode acme cert order
-  when:
-    - result_acme = "default"
+- name: Verify ACME account
+  command: pvenode acme account list
+  register: __acme_account
+
+- name: Create ACME Account 
+  expect:
+    command: pvenode acme account register default {{ pve_acme_email_address }} --directory https://acme-v02.api.letsencrypt.org/directory
+    responses: 
+      "Do you agree to the above terms": y
+  when: __acme_account.stdout is not search('default')
+
+- name: Define ACME Domains
+  command: pvenode config set --acme domains={{ ansible_fqdn }}
+  when: __acme_account.stdout is not search('default')
+
+- name: Register ACME Domains
+  command: pvenode acme cert order
+  when: __acme_account.stdout is not search('default')

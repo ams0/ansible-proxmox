@@ -1,0 +1,4 @@
+- name: adding dd user to group systemd-journal
+  user:
+    name: dd-agent
+    groups: systemd-journal

@@ -24,7 +24,7 @@ iface vmbr1 inet static
 # Bridge for internal network
 
 auto vmbr2
-iface vmbr1 inet static
+iface vmbr2 inet static
   address 192.168.2.2/24
   bridge-ports none
   bridge-stp off
@@ -32,7 +32,7 @@ iface vmbr1 inet static
 #Ceph network
 
 auto vmbr3
-iface vmbr1 inet static
+iface vmbr2 inet static
   address 192.168.3.2/24
   bridge-ports none
   bridge-stp off

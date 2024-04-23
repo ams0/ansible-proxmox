@@ -15,4 +15,7 @@
       logs_enabled: true
       logs_config:
         container_collect_all: true
-
+    datadog_checks:
+      journald:
+        logs:
+        - type: journald
