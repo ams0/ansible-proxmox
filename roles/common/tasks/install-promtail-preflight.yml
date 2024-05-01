@@ -1,0 +1,23 @@
+- block:
+    - name: Get latest release
+      uri:
+        url: "https://api.github.com/repos/grafana/loki/releases/latest"
+        method: GET
+        return_content: True
+        status_code: 200
+        body_format: json
+        validate_certs: False
+        user: "{{ lookup('env', 'GH_USER') | default(omit) }}"
+        password: "{{ lookup('env', 'GH_TOKEN') | default(omit) }}"
+      no_log: "{{ not lookup('env', 'ANSIBLE_DEBUG') | bool }}"
+      register: _latest_release
+      until: _latest_release.status == 200
+      retries: 5
+
+    - name: "Set promtail version to {{ _latest_release.json.tag_name[1:] }}"
+      set_fact:
+        promtail_version: "{{ _latest_release.json.tag_name[1:] }}"
+  when:
+    - promtail_version == "latest"
+  delegate_to: localhost
+  run_once: True

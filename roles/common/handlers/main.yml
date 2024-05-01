@@ -2,3 +2,13 @@
   ansible.builtin.service:
     name: ntpd
     state: restarted
+
+- name: Restart promtail
+  become: True
+  systemd:
+    name: "{{ promtail_systemd_service }}"
+    state: restarted
+    daemon_reload: True
+  tags:
+    - promtail_run
+    - promtail

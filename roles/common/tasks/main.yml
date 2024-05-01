@@ -3,3 +3,4 @@
 # - include_tasks: ntp.yml
 - include_tasks: dd-user-agent-journald.yml
 - include_tasks: install-packages.yml
+- include_tasks: promtail.yml

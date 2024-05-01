@@ -7,6 +7,7 @@
 - name: Verify ACME account
   command: pvenode acme account list
   register: __acme_account
+  changed_when: false
 
 - name: Create ACME Account 
   expect:

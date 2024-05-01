@@ -6,6 +6,13 @@
       - zsh
       - rsync
       - wget
+      - jq
+      - curl
+      - unzip
+      - htop
+      - sshfs
+      - apache2-utils
+      - nfs-common
       - mc
       - git
       - apache2-utils
